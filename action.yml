@@ -49,7 +49,7 @@ runs:
     - name: Download profiling
       shell: sh
       run: |
-        profilecli query merge \
+        ./profilecli query merge \
           --from="${{ inputs.range_from }}" \
           --to="${{ inputs.range_from }}" \
           --profile-type="${{ inputs.profile_type }}" \
