@@ -2,9 +2,34 @@ name: Benchttp CI
 description: Run Benchttp
 
 inputs:
+  endpoint:
+    description: Endpoint to retrieve the profile from
+    required: true
+  service_name:
+    description: Service name
+    required: true
+  username:
+    description: ""
+    required: true
+  password:
+    description: ""
+    required: true
   output_path:
     description: Path to the output file
     required: true
+  range_from:
+    description: ""
+    required: false
+    default: now-1h
+  range_to:
+    description: ""
+    required: false
+    default: now
+  profile_type:
+    description: ""
+    required: false
+    default: process_cpu:samples:count:cpu:nanoseconds
+
 
 runs:
   using: composite
@@ -12,5 +37,14 @@ runs:
     - uses: actions/checkout@v3
 
     - name: Download profiling
-      run: date > ${{ inputs.output_path }}
+      run: |
+        profilecli query merge \
+          --from="${{ inputs.range_from }}" \
+          --to="${{ inputs.range_from }}" \
+          --profile-type="${{ inputs.profile_type }}" \
+          --query='{service_name="${{ inputs.service_name }}"}' \
+          --output="${{ inputs.output_path }}" \
+          --url="${{ inputs.endpoint }}" \
+          --username="${{ inputs.username }}" \
+          --password="${{ inputs.password }}"
       shell: sh
