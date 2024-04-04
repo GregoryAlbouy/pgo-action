@@ -48,7 +48,6 @@ runs:
     - name: Download profiling
       shell: sh
       run: |
-        echo -n ${{ inputs.password }} | wc -c
         ./profilecli query merge \
           --from="${{ inputs.range_from }}" \
           --to="${{ inputs.range_from }}" \
