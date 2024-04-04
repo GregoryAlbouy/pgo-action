@@ -1,0 +1,16 @@
+name: Benchttp CI
+description: Run Benchttp
+
+inputs:
+  output_path:
+    description: Path to the output file
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Download profiling
+      run: echo $RANDOM > ${{ inputs.output_path }}
+      shell: sh
