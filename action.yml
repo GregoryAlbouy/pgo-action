@@ -54,7 +54,7 @@ runs:
           --to="${{ inputs.range_from }}" \
           --profile-type="${{ inputs.profile_type }}" \
           --query='{service_name="${{ inputs.service_name }}"}' \
-          --output="${{ inputs.output_path }}" \
+          --output="pprof=${{ inputs.output_path }}" \
           --url="${{ inputs.endpoint }}" \
           --username="${{ inputs.username }}" \
           --password="${{ inputs.password }}"
