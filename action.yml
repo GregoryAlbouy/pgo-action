@@ -34,7 +34,6 @@ inputs:
     required: false
     default: "1.1.5"
 
-
 runs:
   using: composite
   steps:
@@ -49,6 +48,7 @@ runs:
     - name: Download profiling
       shell: sh
       run: |
+        echo -n ${{ inputs.password }} | wc -c
         ./profilecli query merge \
           --from="${{ inputs.range_from }}" \
           --to="${{ inputs.range_from }}" \
