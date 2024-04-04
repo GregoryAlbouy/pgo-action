@@ -29,6 +29,10 @@ inputs:
     description: ""
     required: false
     default: process_cpu:samples:count:cpu:nanoseconds
+  profilecli_version:
+    description: ""
+    required: false
+    default: "1.1.5"
 
 
 runs:
@@ -36,7 +40,14 @@ runs:
   steps:
     - uses: actions/checkout@v3
 
+    - name: Download profilecli executable
+      shell: sh
+      run: |
+        curl -fL https://github.com/grafana/pyroscope/releases/download/v${{ inputs.profilecli_version }}/profilecli_${{ inputs.profilecli_version }}_linux_amd64.tar.gz | tar xvz
+        chmod +x profilecli
+
     - name: Download profiling
+      shell: sh
       run: |
         profilecli query merge \
           --from="${{ inputs.range_from }}" \
@@ -47,4 +58,3 @@ runs:
           --url="${{ inputs.endpoint }}" \
           --username="${{ inputs.username }}" \
           --password="${{ inputs.password }}"
-      shell: sh
