@@ -39,11 +39,10 @@ runs:
   steps:
     - uses: actions/checkout@v3
 
-    - name: Remove previous profile if exists
-      # TODO: remove only if download was successful
+    - name: Generate and share timestamp
       shell: sh
-      run: rm -f ${{ inputs.output_path }}
-
+      run: echo 'TMP_FILE="/tmp/profilecli-action-$(date +%s%3N)"' >> $GITHUB_ENV
+    
     - name: Download profilecli executable
       shell: sh
       run: |
@@ -62,3 +61,9 @@ runs:
           --url="${{ inputs.endpoint }}" \
           --username="${{ inputs.username }}" \
           --password="${{ inputs.password }}"
+
+    - name: Replace previous profile with the new one
+      shell: sh
+      run: |
+        rm -f ${{ inputs.output_path }}
+        mv $TMP_FILE ${{ inputs.output_path }}
