@@ -41,7 +41,7 @@ runs:
 
     - name: Generate and share timestamp
       shell: sh
-      run: echo TMP_FILE=/tmp/profilecli-action-$(date +%s%3N) >> $GITHUB_ENV
+      run: echo TMP_FILE=/tmp/profilecli-action-$(date +%s%3N).pgo >> $GITHUB_ENV
     
     - name: Download profilecli executable
       shell: sh
@@ -57,13 +57,11 @@ runs:
           --to="${{ inputs.range_from }}" \
           --profile-type="${{ inputs.profile_type }}" \
           --query='{service_name="${{ inputs.service_name }}"}' \
-          --output="pprof=${{ inputs.output_path }}" \
+          --output="pprof=$TMP_FILE" \
           --url="${{ inputs.endpoint }}" \
           --username="${{ inputs.username }}" \
           --password="${{ inputs.password }}"
 
     - name: Replace previous profile with the new one
       shell: sh
-      run: |
-        rm -f ${{ inputs.output_path }}
-        mv $TMP_FILE ${{ inputs.output_path }}
+      run: mv -f $TMP_FILE ${{ inputs.output_path }}
