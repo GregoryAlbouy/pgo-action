@@ -41,7 +41,7 @@ runs:
 
     - name: Generate and share timestamp
       shell: sh
-      run: echo 'TMP_FILE="/tmp/profilecli-action-$(date +%s%3N)"' >> $GITHUB_ENV
+      run: echo TMP_FILE=/tmp/profilecli-action-$(date +%s%3N) >> $GITHUB_ENV
     
     - name: Download profilecli executable
       shell: sh
